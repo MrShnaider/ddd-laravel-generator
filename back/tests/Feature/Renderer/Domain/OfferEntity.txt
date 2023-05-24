@@ -1,0 +1,11 @@
+<?php
+
+
+namespace App\Domain\Offer;
+
+
+abstract class OfferEntity
+{
+    abstract public function getId(): int;
+    abstract public function getData(): OfferData;
+}

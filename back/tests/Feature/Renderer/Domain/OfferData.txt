@@ -1,0 +1,12 @@
+<?php
+
+
+namespace App\Domain\Offer;
+
+
+class OfferData
+{
+    public function __construct(
+        int $id
+    ) {}
+}
