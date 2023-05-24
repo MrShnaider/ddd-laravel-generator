@@ -37,4 +37,19 @@ class StubDirectories
     {
         return Path::join(app_path(), 'Domain/Stubs/Infrastructure', "ClassRepositoryEloquent.php");
     }
+
+    public static function TEST_ENTITY(): string
+    {
+        return Path::join(app_path(), 'Domain/Stubs/Tests', "DomainClassEntityTest.php");
+    }
+
+    public static function TEST_REPOSITORY(): string
+    {
+        return Path::join(app_path(), 'Domain/Stubs/Tests', "DomainClassRepositoryTest.php");
+    }
+
+    public static function TEST_UTIL_REPOSITORY(): string
+    {
+        return Path::join(app_path(), 'Domain/Stubs/Tests', "UtilClassRepository.php");
+    }
 }

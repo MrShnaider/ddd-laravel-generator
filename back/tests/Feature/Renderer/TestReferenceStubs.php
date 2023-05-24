@@ -37,4 +37,19 @@ class TestReferenceStubs
     {
         return Path::join(__DIR__, 'Infrastructure/OfferRepositoryEloquent.txt');
     }
+
+    public static function TEST_ENTITY(): string
+    {
+        return Path::join(__DIR__, 'Tests/DomainOfferEntityTest.txt');
+    }
+
+    public static function TEST_REPOSITORY(): string
+    {
+        return Path::join(__DIR__, 'Tests/DomainOfferRepositoryTest.txt');
+    }
+
+    public static function TEST_UTIL_REPOSITORY(): string
+    {
+        return Path::join(__DIR__, 'Tests/UtilOfferRepository.txt');
+    }
 }

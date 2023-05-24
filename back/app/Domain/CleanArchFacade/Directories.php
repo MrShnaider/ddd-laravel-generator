@@ -37,4 +37,19 @@ class Directories
     {
         return Path::join(app_path(), 'Infrastructure', 'DomainImpl', "{$name}Laravel", "{$name}RepositoryEloquent.php");
     }
+
+    public static function TEST_ENTITY(string $name): string
+    {
+        return Path::join(app_path(), '../tests/Feature', $name, "Domain{$name}EntityTest.php");
+    }
+
+    public static function TEST_REPOSITORY(string $name): string
+    {
+        return Path::join(app_path(), '../tests/Feature', $name, "Domain{$name}RepositoryTest.php");
+    }
+
+    public static function TEST_UTIL_REPOSITORY(string $name): string
+    {
+        return Path::join(app_path(), '../tests/Feature', $name, "Util{$name}Repository.php");
+    }
 }

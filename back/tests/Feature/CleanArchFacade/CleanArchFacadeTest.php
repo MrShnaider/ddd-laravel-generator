@@ -64,6 +64,28 @@ class CleanArchFacadeTest extends TestCase
         );
     }
 
+    /** @test */
+    public function facade_canCreateTests()
+    {
+        app(CleanArchFacade::class)->generateTests(self::$entityName);
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::TEST_ENTITY(self::$entityName));
+        // Entity
+        $this->generateAndCheckFile(
+            Directories::TEST_ENTITY(self::$entityName),
+            TestReferenceStubs::TEST_ENTITY()
+        );
+        // Repository
+        $this->generateAndCheckFile(
+            Directories::TEST_REPOSITORY(self::$entityName),
+            TestReferenceStubs::TEST_REPOSITORY()
+        );
+        // UtilRepository
+        $this->generateAndCheckFile(
+            Directories::TEST_UTIL_REPOSITORY(self::$entityName),
+            TestReferenceStubs::TEST_UTIL_REPOSITORY()
+        );
+    }
+
     private function generateAndCheckFile(string $filePath, string $testStubFilePath)
     {
         $this->assertEquals(
