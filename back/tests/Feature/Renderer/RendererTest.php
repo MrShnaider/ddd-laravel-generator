@@ -15,6 +15,8 @@ class RendererTest extends TestCase
 
     private Renderer $renderer;
 
+    /** DOMAIN */
+
     /** @test */
     public function renderer_canRenderRepository()
     {
@@ -46,6 +48,25 @@ class RendererTest extends TestCase
         $result = $this->renderStub('Domain/ClassData.php');
         $this->assertEquals($example, $result);
     }
+
+    /** INFRASTRUCTURE */
+
+    /** @test */
+    public function renderer_canRenderEntityImpl()
+    {
+        $example = $this->getExample('Infrastructure/OfferEntityEloquent.txt');
+        $result = $this->renderStub('Infrastructure/ClassEntityEloquent.php');
+        $this->assertEquals($example, $result);
+    }
+
+    /** @test */
+    public function renderer_canRenderRepositoryImpl()
+    {
+        $example = $this->getExample('Infrastructure/OfferRepositoryEloquent.txt');
+        $result = $this->renderStub('Infrastructure/ClassRepositoryEloquent.php');
+        $this->assertEquals($example, $result);
+    }
+
 
     private function renderStub(string $stubFile): string
     {

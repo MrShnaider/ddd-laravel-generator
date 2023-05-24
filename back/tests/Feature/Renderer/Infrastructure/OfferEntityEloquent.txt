@@ -1,0 +1,29 @@
+<?php
+
+
+namespace App\Infrastructure\DomainImpl\OfferLaravel;
+
+
+use App\Domain\Offer\OfferData;
+use App\Domain\Offer\OfferEntity;
+use App\Models\Offer;
+
+class OfferEntityEloquent extends OfferEntity
+{
+    public function __construct(
+        public Offer $offerModel
+    ) {}
+
+    public function getId(): int
+    {
+        return $this->offerModel->id;
+    }
+
+    public function getData(): OfferData
+    {
+        $this->offerModel->refresh();
+        return new OfferData(
+            id: $this->getId()
+        );
+    }
+}

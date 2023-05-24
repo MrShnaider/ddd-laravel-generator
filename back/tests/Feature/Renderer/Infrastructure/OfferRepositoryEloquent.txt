@@ -1,0 +1,35 @@
+<?php
+
+
+namespace App\Infrastructure\DomainImpl\OfferLaravel;
+
+
+use App\Domain\Offer\CreateOfferData;
+use App\Domain\Offer\OfferEntity;
+use App\Domain\Offer\OfferRepository;
+use App\Models\Offer;
+
+class OfferRepositoryEloquent extends OfferRepository
+{
+    public function createOffer(CreateOfferData $data): OfferEntity
+    {
+        $offerModel = Offer::make();
+        $offerModel->save();
+
+        return $this->getOfferByModel($offerModel);
+    }
+
+    public function getOfferById(int $offerId): ?OfferEntity
+    {
+        $offerModel = Offer::firstWhere('id', $offerId);
+        if ($offerModel == null)
+            return null;
+
+        return new OfferEntityEloquent($offerModel);
+    }
+
+    public function getOfferByModel(Offer $offerModel): ?OfferEntity
+    {
+        return new OfferEntityEloquent($offerModel);
+    }
+}
