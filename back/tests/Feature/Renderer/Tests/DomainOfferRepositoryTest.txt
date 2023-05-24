@@ -1,0 +1,28 @@
+<?php
+
+
+namespace Tests\Feature\Offer;
+
+use App\Domain\Offer\OfferRepository;
+use App\Domain\Offer\OfferEntity;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
+
+class DomainOfferRepositoryTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    /** @test */
+    public function repository_returnNull_whenGetNonExistentOffer()
+    {
+        $offer = app(OfferRepository::class)->getOfferById(-1);
+        $this->assertNull($offer);
+    }
+
+    /** @test */
+    public function repository_canCreateOffer(){
+        $data = app(UtilOfferRepository::class)->getCreateOfferData();
+        $offer = app(OfferRepository::class)->createOffer($data);
+        $this->assertInstanceOf(OfferEntity::class, $offer);
+    }
+}

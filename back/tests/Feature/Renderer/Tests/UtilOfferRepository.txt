@@ -1,0 +1,35 @@
+<?php
+
+
+namespace Tests\Feature\Offer;
+
+use App\Domain\Offer\CreateOfferData;
+use App\Domain\Offer\OfferEntity;
+use App\Domain\Offer\OfferRepository;
+
+class UtilOfferRepository
+{
+    public function __construct() {
+        $this->data = new CreateOfferData(
+        );
+    }
+
+    private int $count = 1;
+    private CreateOfferData $data;
+
+    public function getCreateOfferData(): CreateOfferData
+    {
+        return new CreateOfferData(
+        );
+    }
+
+    public function nextOffer(): void
+    {
+        $this->count++;
+    }
+
+    public function createOffer(): OfferEntity
+    {
+        return app(OfferRepository::class)->createOffer($this->getCreateOfferData());
+    }
+}

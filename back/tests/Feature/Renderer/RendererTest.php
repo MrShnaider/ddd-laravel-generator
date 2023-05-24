@@ -67,6 +67,31 @@ class RendererTest extends TestCase
         $this->assertEquals($example, $result);
     }
 
+    /** TESTS */
+
+    /** @test */
+    public function renderer_canRenderEntityTest()
+    {
+        $example = $this->getExample('Tests/DomainOfferEntityTest.txt');
+        $result = $this->renderStub('Tests/DomainClassEntityTest.php');
+        $this->assertEquals($example, $result);
+    }
+
+    /** @test */
+    public function renderer_canRenderRepositoryTest()
+    {
+        $example = $this->getExample('Tests/DomainOfferRepositoryTest.txt');
+        $result = $this->renderStub('Tests/DomainClassRepositoryTest.php');
+        $this->assertEquals($example, $result);
+    }
+
+    /** @test */
+    public function renderer_canRenderUtilRepository()
+    {
+        $example = $this->getExample('Tests/UtilOfferRepository.txt');
+        $result = $this->renderStub('Tests/UtilClassRepository.php');
+        $this->assertEquals($example, $result);
+    }
 
     private function renderStub(string $stubFile): string
     {
