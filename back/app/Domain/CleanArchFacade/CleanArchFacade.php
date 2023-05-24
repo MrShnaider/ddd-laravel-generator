@@ -29,6 +29,7 @@ class CleanArchFacade
         $entityName = str($entityName)->studly();
         $this->renderer = new Renderer($entityName);
         $this->fileGenerator = new FileGenerator();
+
         $this->generateFile(Directories::INFR_ENTITY($entityName), StubDirectories::INF_ENTITY());
         $this->generateFile(Directories::INFR_REPOSITORY($entityName), StubDirectories::INFR_REPOSITORY());
     }
@@ -38,6 +39,7 @@ class CleanArchFacade
         $entityName = str($entityName)->studly();
         $this->renderer = new Renderer($entityName);
         $this->fileGenerator = new FileGenerator();
+
         $this->generateFile(Directories::TEST_ENTITY($entityName), StubDirectories::TEST_ENTITY());
         $this->generateFile(Directories::TEST_REPOSITORY($entityName), StubDirectories::TEST_REPOSITORY());
         $this->generateFile(Directories::TEST_UTIL_REPOSITORY($entityName), StubDirectories::TEST_UTIL_REPOSITORY());

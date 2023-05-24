@@ -17,6 +17,12 @@ class CleanArchFacadeTest extends TestCase
         app(Filesystem::class)->remove($this->currentGenerationDirectoryPath);
     }
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Directories::$basePath = app_path('Clean');
+    }
+
     private static string $entityName = 'Offer';
     private string $currentGenerationDirectoryPath;
 

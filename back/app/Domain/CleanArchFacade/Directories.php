@@ -8,48 +8,50 @@ use Symfony\Component\Filesystem\Path;
 
 class Directories
 {
+    public static string $basePath;
+
     public static function DOMAIN_ENTITY(string $name): string
     {
-        return Path::join(app_path(), 'Domain', "{$name}/{$name}Entity.php");
+        return Path::join(self::$basePath, 'Domain', "{$name}/{$name}Entity.php");
     }
 
     public static function DOMAIN_REPOSITORY(string $name): string
     {
-        return Path::join(app_path(), 'Domain', "{$name}/{$name}Repository.php");
+        return Path::join(self::$basePath, 'Domain', "{$name}/{$name}Repository.php");
     }
 
     public static function DOMAIN_CREATE_DATA(string $name): string
     {
-        return Path::join(app_path(), 'Domain', "{$name}/Create{$name}Data.php");
+        return Path::join(self::$basePath, 'Domain', "{$name}/Create{$name}Data.php");
     }
 
     public static function DOMAIN_DATA(string $name): string
     {
-        return Path::join(app_path(), 'Domain', "{$name}/{$name}Data.php");
+        return Path::join(self::$basePath, 'Domain', "{$name}/{$name}Data.php");
     }
 
     public static function INFR_ENTITY(string $name): string
     {
-        return Path::join(app_path(), 'Infrastructure', 'DomainImpl', "{$name}Laravel", "{$name}EntityEloquent.php");
+        return Path::join(self::$basePath, 'Infrastructure', 'DomainImpl', "{$name}Laravel", "{$name}EntityEloquent.php");
     }
 
     public static function INFR_REPOSITORY(string $name): string
     {
-        return Path::join(app_path(), 'Infrastructure', 'DomainImpl', "{$name}Laravel", "{$name}RepositoryEloquent.php");
+        return Path::join(self::$basePath, 'Infrastructure', 'DomainImpl', "{$name}Laravel", "{$name}RepositoryEloquent.php");
     }
 
     public static function TEST_ENTITY(string $name): string
     {
-        return Path::join(app_path(), '../tests/Feature', $name, "Domain{$name}EntityTest.php");
+        return Path::join(self::$basePath, '../tests/Feature', $name, "Domain{$name}EntityTest.php");
     }
 
     public static function TEST_REPOSITORY(string $name): string
     {
-        return Path::join(app_path(), '../tests/Feature', $name, "Domain{$name}RepositoryTest.php");
+        return Path::join(self::$basePath, '../tests/Feature', $name, "Domain{$name}RepositoryTest.php");
     }
 
     public static function TEST_UTIL_REPOSITORY(string $name): string
     {
-        return Path::join(app_path(), '../tests/Feature', $name, "Util{$name}Repository.php");
+        return Path::join(self::$basePath, '../tests/Feature', $name, "Util{$name}Repository.php");
     }
 }
