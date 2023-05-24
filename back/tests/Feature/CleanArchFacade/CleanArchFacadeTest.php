@@ -3,9 +3,10 @@
 namespace Tests\Feature\CleanArchFacade;
 
 use App\Domain\CleanArchFacade\CleanArchFacade;
-use App\Domain\FileGenerator\FileGenerator;
+use App\Domain\CleanArchFacade\Directories;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
+use Tests\Feature\Renderer\TestReferenceStubs;
 use Tests\TestCase;
 
 class CleanArchFacadeTest extends TestCase
@@ -13,55 +14,61 @@ class CleanArchFacadeTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $fs = new Filesystem();
-        $fs->remove($this->domainDirectoryPath);
+        app(Filesystem::class)->remove($this->currentGenerationDirectoryPath);
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->facade = new CleanArchFacade();
-        $this->domainDirectoryPath = Path::join(app_path(), 'Domain', $this->entityName);
-        $this->testStubDirectory = Path::join(__DIR__, '../Renderer');
-    }
-
-    private string $domainDirectoryPath;
-    private CleanArchFacade $facade;
-    private string $entityName = 'Offer';
-    private string $testStubDirectory;
+    private static string $entityName = 'Offer';
+    private string $currentGenerationDirectoryPath;
 
     /** @test */
-    public function facade_canCreateEntity()
+    public function facade_canCreateDomain()
     {
-        $this->facade->generateDomain($this->entityName);
+        app(CleanArchFacade::class)->generateDomain(self::$entityName);
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::DOMAIN_ENTITY(self::$entityName));
         // Entity
         $this->generateAndCheckFile(
-            "{$this->entityName}Entity.php",
-            'Domain/OfferEntity.txt'
+            Directories::DOMAIN_ENTITY(self::$entityName),
+            TestReferenceStubs::DOMAIN_ENTITY()
         );
         // CreateData
         $this->generateAndCheckFile(
-            "Create{$this->entityName}Data.php",
-            'Domain/CreateOfferData.txt'
+            Directories::DOMAIN_CREATE_DATA(self::$entityName),
+            TestReferenceStubs::DOMAIN_CREATE_DATA()
         );
         // Data
         $this->generateAndCheckFile(
-            "{$this->entityName}Data.php",
-            'Domain/OfferData.txt'
+            Directories::DOMAIN_DATA(self::$entityName),
+            TestReferenceStubs::DOMAIN_DATA()
         );
         // Repository
         $this->generateAndCheckFile(
-            "{$this->entityName}Repository.php",
-            'Domain/OfferRepository.txt'
+            Directories::DOMAIN_REPOSITORY(self::$entityName),
+            TestReferenceStubs::DOMAIN_REPOSITORY()
         );
     }
 
-    private function generateAndCheckFile(string $fileName, string $testStubFileName)
+    /** @test */
+    public function facade_canCreateInfrastructure()
     {
-        $filePath = Path::join($this->domainDirectoryPath, $fileName);
+        app(CleanArchFacade::class)->generateInfrastructure(self::$entityName);
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::INFR_ENTITY(self::$entityName));
+        // Entity
+        $this->generateAndCheckFile(
+            Directories::INFR_ENTITY(self::$entityName),
+            TestReferenceStubs::INFR_ENTITY()
+        );
+        // Repository
+        $this->generateAndCheckFile(
+            Directories::INFR_REPOSITORY(self::$entityName),
+            TestReferenceStubs::INFR_REPOSITORY()
+        );
+    }
+
+    private function generateAndCheckFile(string $filePath, string $testStubFilePath)
+    {
         $this->assertEquals(
-            file_get_contents(Path::join($this->testStubDirectory, $testStubFileName)),
-            file_get_contents($filePath)
+            file_get_contents($filePath),
+            file_get_contents($testStubFilePath)
         );
     }
 }

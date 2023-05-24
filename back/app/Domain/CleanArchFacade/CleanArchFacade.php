@@ -6,11 +6,9 @@ namespace App\Domain\CleanArchFacade;
 
 use App\Domain\FileGenerator\FileGenerator;
 use App\Domain\Renderer\Renderer;
-use Symfony\Component\Filesystem\Path;
 
 class CleanArchFacade
 {
-    private string $domainDirectoryPath;
     private Renderer $renderer;
     private FileGenerator $fileGenerator;
 
@@ -19,18 +17,25 @@ class CleanArchFacade
         $entityName = str($entityName)->studly();
         $this->renderer = new Renderer($entityName);
         $this->fileGenerator = new FileGenerator();
-        $this->domainDirectoryPath = Path::join(app_path(), 'Domain', $entityName);
 
-        $this->generateFile("{$entityName}Entity.php", 'Domain/ClassEntity.php');
-        $this->generateFile("Create{$entityName}Data.php", 'Domain/CreateClassData.php');
-        $this->generateFile("{$entityName}Data.php", 'Domain/ClassData.php');
-        $this->generateFile("{$entityName}Repository.php", 'Domain/ClassRepository.php');
+        $this->generateFile(Directories::DOMAIN_ENTITY($entityName), StubDirectories::DOMAIN_ENTITY());
+        $this->generateFile(Directories::DOMAIN_REPOSITORY($entityName), StubDirectories::DOMAIN_REPOSITORY());
+        $this->generateFile(Directories::DOMAIN_DATA($entityName), StubDirectories::DOMAIN_DATA());
+        $this->generateFile(Directories::DOMAIN_CREATE_DATA($entityName), StubDirectories::DOMAIN_CREATE_DATA());
     }
 
-    private function generateFile(string $resultFileName, string $stubFilePath)
+    public function generateInfrastructure(string $entityName)
     {
-        $filePath = Path::join($this->domainDirectoryPath, $resultFileName);
-        $content = $this->renderer->getRenderedStub(Path::join(__DIR__, '/../Stubs/', $stubFilePath));
-        $this->fileGenerator->createFile($filePath, $content);
+        $entityName = str($entityName)->studly();
+        $this->renderer = new Renderer($entityName);
+        $this->fileGenerator = new FileGenerator();
+        $this->generateFile(Directories::INFR_ENTITY($entityName), StubDirectories::INF_ENTITY());
+        $this->generateFile(Directories::INFR_REPOSITORY($entityName), StubDirectories::INFR_REPOSITORY());
+    }
+
+    private function generateFile(string $resultFilePath, string $stubFilePath)
+    {
+        $content = $this->renderer->getRenderedStub($stubFilePath);
+        $this->fileGenerator->createFile($resultFilePath, $content);
     }
 }
