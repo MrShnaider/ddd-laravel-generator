@@ -8,13 +8,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class FileGenerator
 {
-    /**
-     * @throws ExceptionFileAlreadyExists
-     */
+    /** @throws ExceptionFileAlreadyExists */
     public function createFile(string $filePath, string $content)
     {
-        if (file_exists($filePath))
-            throw new ExceptionFileAlreadyExists();
+        $this->ensureFileDoesNotExist($filePath);
         $fs = new Filesystem();
         $fs->appendToFile($filePath, $content);
     }
@@ -24,5 +21,12 @@ class FileGenerator
         if (!file_exists($fullFilePath))
             return;
         unlink($fullFilePath);
+    }
+
+    /** @throws ExceptionFileAlreadyExists */
+    public function ensureFileDoesNotExist(string $filePath)
+    {
+        if (file_exists($filePath))
+            throw new ExceptionFileAlreadyExists();
     }
 }

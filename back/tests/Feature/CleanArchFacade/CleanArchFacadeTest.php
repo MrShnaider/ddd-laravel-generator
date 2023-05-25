@@ -4,6 +4,7 @@ namespace Tests\Feature\CleanArchFacade;
 
 use App\Domain\CleanArchFacade\CleanArchFacade;
 use App\Domain\CleanArchFacade\Directories;
+use App\Domain\FileGenerator\ExceptionFileAlreadyExists;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Tests\Feature\Renderer\TestReferenceStubs;
@@ -90,6 +91,30 @@ class CleanArchFacadeTest extends TestCase
             Directories::TEST_UTIL_REPOSITORY(self::$entityName),
             TestReferenceStubs::TEST_UTIL_REPOSITORY()
         );
+    }
+
+    public function facade_throwsException_whenPathAlreadyExists()
+    {
+        // Domain
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::DOMAIN_ENTITY(self::$entityName));
+        app(Filesystem::class)->mkdir($this->currentGenerationDirectoryPath);
+        $this->expectException(ExceptionFileAlreadyExists::class);
+        app(CleanArchFacade::class)->generateDomain(self::$entityName);
+        app(Filesystem::class)->remove($this->currentGenerationDirectoryPath);
+
+        // Infr
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::INFR_ENTITY(self::$entityName));
+        app(Filesystem::class)->mkdir($this->currentGenerationDirectoryPath);
+        $this->expectException(ExceptionFileAlreadyExists::class);
+        app(CleanArchFacade::class)->generateInfrastructure(self::$entityName);
+        app(Filesystem::class)->remove($this->currentGenerationDirectoryPath);
+
+        // Tests
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::TEST_ENTITY(self::$entityName));
+        app(Filesystem::class)->mkdir($this->currentGenerationDirectoryPath);
+        $this->expectException(ExceptionFileAlreadyExists::class);
+        app(CleanArchFacade::class)->generateTests(self::$entityName);
+        app(Filesystem::class)->remove($this->currentGenerationDirectoryPath);
     }
 
     private function generateAndCheckFile(string $filePath, string $testStubFilePath)
