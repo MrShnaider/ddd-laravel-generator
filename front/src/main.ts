@@ -10,8 +10,8 @@ import { useProjectStore } from './stores/project'
 const app = createApp(App)
 
 app.use(createPinia())
+await useProjectStore().refresh();
 app.use(router)
 
-useProjectStore().refresh();
 
 app.mount('#app')

@@ -34,6 +34,7 @@ import FieldWithTitle from '@/components/FieldWithTitle.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
 import { useProjectStore } from '@/stores/project';
 import { ref } from 'vue';
+import axios from 'axios';
 
 const project = useProjectStore();
 
@@ -56,14 +57,11 @@ const removeField = (id: number) => {
 }
 
 const createNewEntity = async () => {
-    const json = await fetch('http://127.0.0.1:8000/api/entity/create', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            root_directory: project.currentProject?.directory,
-            entity_name: entityName.value
-        })
-    }).then((r: Response) => r.json());
-    console.log(json);
+	await axios.post('http://clean-generator/api/entity/create', {
+		root_directory: project.currentProject?.directory,
+		entity_name: entityName.value
+	});
+	entityName.value = '';
+	fields.value = [];
 }
 </script>
