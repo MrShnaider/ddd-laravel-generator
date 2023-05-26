@@ -1,21 +1,22 @@
 <template>
     <div class="min-h-screen bg-[#E9EFF2] grid justify-center items-center">
         <div class="w-[600px] grid gap-7">
-            <label>
-                <span class="text-[#606F78] text-2xl mb-1">Имя</span>
-                <hr class="border border-gray-400">
+            <field-with-title title="Проект">
+                <text-input v-model:text="project.basePath" class="mt-3 w-full"/>
+            </field-with-title>
+			<field-with-title title="Имя">
                 <text-input v-model:text="entityName" class="mt-3 w-full"/>
-            </label>
+            </field-with-title>
             <div>
-                <span class="text-[#606F78] text-2xl mb-1">Поля</span>
-                <hr class="border border-gray-400">
-                <div v-for="field in fields" class="mt-3 grid grid-cols-1 items-center" :key="field.id">
+				<field-with-title title="Поля">
+					<div v-for="field in fields" class="mt-3 grid grid-cols-1 items-center" :key="field.id">
                     <div style="grid-column: 1/1; grid-row: 1/1;" class="grid grid-cols-12 gap-3">
                         <text-input v-model:text="field.title" class="col-span-8" />
                         <text-input v-model:text="field.type" class="col-span-4" />
                     </div>
                     <button @click="removeField(field.id)" style="grid-column: 1/1; grid-row: 1/1;" class="justify-self-end -mr-6">X</button>
                 </div>
+            	</field-with-title>
                 <button class="block min-w-full mt-3" @click="addField">
                     <span class="
                         flex justify-center min-w-full py-1 px-2 rounded-lg
@@ -23,12 +24,8 @@
                     ">Добавить поле</span>
                 </button>
             </div>
-            
             <div class="flex justify-end">
-                <button @click="createNewEntity" class="
-                    bg-[#329CBD] text-[#E5F1FB] shadow-md px-5 py-4 rounded-lg text-xl font-medium
-                    hover:bg-cyan-600 active:shadow-none
-                ">Сгенерировать</button>
+                <primary-button @click="createNewEntity">Сгенерировать</primary-button>
             </div>
         </div>
     </div>
@@ -36,7 +33,12 @@
 
 <script setup lang="ts">
 import TextInput from '@/components/TextInput.vue';
+import FieldWithTitle from '@/components/FieldWithTitle.vue';
+import PrimaryButton from '@/components/PrimaryButton.vue';
+import { useProjectStore } from '@/stores/project';
 import { ref } from 'vue';
+
+const project = useProjectStore();
 
 interface EntityField {
     id: number;
@@ -61,7 +63,7 @@ const createNewEntity = async () => {
         method: 'post',
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify({
-            root_directory: 'f',
+            root_directory: project.basePath,
             entity_name: entityName.value
         })
     }).then((r: Response) => r.json());
