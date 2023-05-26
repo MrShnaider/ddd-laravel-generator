@@ -54,6 +54,14 @@ class CleanArchFacade
     }
 
     /** @throws ExceptionFileAlreadyExists */
+    public function generateNewEntity(string $entityName)
+    {
+        $this->generateDomain($entityName);
+        $this->generateInfrastructure($entityName);
+        $this->generateTests($entityName);
+    }
+
+    /** @throws ExceptionFileAlreadyExists */
     private function generateFile(string $resultFilePath, string $stubFilePath)
     {
         $content = $this->renderer->getRenderedStub($stubFilePath);
