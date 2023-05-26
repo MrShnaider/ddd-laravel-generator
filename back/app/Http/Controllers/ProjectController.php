@@ -19,6 +19,8 @@ class ProjectController extends Controller
 
         if (!file_exists($directory) || !is_dir($directory))
             return response()->json(['errors' => ['directory' => 'Такой директории не существует']], 422);
+        if (!is_null(Project::firstWhere('title', $title)))
+            return response()->json(['errors' => ['title' => 'Проект с таким названием уже существует']], 422);
         $p = Project::make();
         $p->title = $title;
         $p->directory = $directory;
