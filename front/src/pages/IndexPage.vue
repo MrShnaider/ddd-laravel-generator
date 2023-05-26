@@ -44,10 +44,10 @@ const newProjectData = reactive<ProjectData>({
 	title: '',
 	directory: ''
 });
-const addNewProject = () => {
+const addNewProject = async () => {
 	if (newProjectData.title === '' || newProjectData.directory === '')
 		return;
-	projectStore.addNewProject({ ...newProjectData });
+	await projectStore.addNewProject({ ...newProjectData });
 	newProjectData.title = '';
 	newProjectData.directory = '';
 }
