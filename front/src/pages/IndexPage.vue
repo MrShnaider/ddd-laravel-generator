@@ -4,15 +4,15 @@
             <label>
                 <span class="text-[#606F78] text-2xl mb-1">Имя</span>
                 <hr class="border border-gray-400">
-                <text-input class="mt-3 w-full"/>
+                <text-input v-model:text="entityName" class="mt-3 w-full"/>
             </label>
             <div>
                 <span class="text-[#606F78] text-2xl mb-1">Поля</span>
                 <hr class="border border-gray-400">
                 <div v-for="field in fields" class="mt-3 grid grid-cols-1 items-center" :key="field.id">
                     <div style="grid-column: 1/1; grid-row: 1/1;" class="grid grid-cols-12 gap-3">
-                        <text-input class="col-span-8" />
-                        <text-input class="col-span-4" />
+                        <text-input v-model:text="field.title" class="col-span-8" />
+                        <text-input v-model:text="field.type" class="col-span-4" />
                     </div>
                     <button @click="removeField(field.id)" style="grid-column: 1/1; grid-row: 1/1;" class="justify-self-end -mr-6">X</button>
                 </div>
@@ -25,7 +25,10 @@
             </div>
             
             <div class="flex justify-end">
-                <button class="bg-[#329CBD] text-[#E5F1FB] shadow-md px-5 py-4 rounded-lg text-xl font-medium">Сгенерировать</button>
+                <button @click="createNewEntity" class="
+                    bg-[#329CBD] text-[#E5F1FB] shadow-md px-5 py-4 rounded-lg text-xl font-medium
+                    hover:bg-cyan-600 active:shadow-none
+                ">Сгенерировать</button>
             </div>
         </div>
     </div>
@@ -43,6 +46,7 @@ interface EntityField {
 
 const fields = ref<EntityField[]>([]);
 let currentFieldId = 1;
+const entityName = ref('');
 
 const addField = () => {
     fields.value.push({ id: currentFieldId++, title: '', type: ''});
@@ -50,5 +54,17 @@ const addField = () => {
 
 const removeField = (id: number) => {
     fields.value = fields.value.filter(field => field.id !== id);
+}
+
+const createNewEntity = async () => {
+    const json = await fetch('http://127.0.0.1:8000/api/entity/create', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            root_directory: 'f',
+            entity_name: entityName.value
+        })
+    }).then((r: Response) => r.json());
+    console.log(json);
 }
 </script>
