@@ -7,14 +7,18 @@ class Renderer
     private string $className;
     private string $objectName;
 
-    public function __construct(string $className) {
+    /**
+     * @param string $className
+     * @param FieldValue[] $fields
+     */
+    public function __construct(string $className, private array $fields = []) {
         $this->className = str($className)->studly()->value();
         $this->objectName = str($className)->camel()->value();
     }
 
     public function getRenderedStub(string $fullPathToStub): string
     {
-        [$className, $objectName] = $this->declareVars();
+        [$className, $objectName, $fields] = $this->declareVars();
         ob_start();
         require $fullPathToStub;
         $result = ob_get_contents();
@@ -25,6 +29,6 @@ class Renderer
 
     private function declareVars(): array
     {
-        return [$this->className, $this->objectName];
+        return [$this->className, $this->objectName, $this->fields];
     }
 }

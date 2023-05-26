@@ -2,6 +2,7 @@
 <?php
 /** @var string $className*/
 /** @var string $objectName*/
+/** @var \App\Domain\Renderer\FieldValue $fields*/
 ?>
 
 
@@ -28,7 +29,10 @@ class <?=$className?>EntityEloquent extends <?=$className?>Entity
     {
         $this-><?=$objectName?>Model->refresh();
         return new <?=$className?>Data(
-            id: $this->getId()
+            id: $this->getId(),
+<?php foreach ($fields as $field): ?>
+            <?= $field->name ?>: $this->$<?=$objectName?>Model-><?= $field->name ?>,
+<?php endforeach;?>
         );
     }
 }

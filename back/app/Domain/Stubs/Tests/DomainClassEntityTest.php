@@ -2,6 +2,7 @@
 <?php
 /** @var string $className*/
 /** @var string $objectName*/
+/** @var \App\Domain\Renderer\FieldValue $fields*/
 ?>
 
 
@@ -25,5 +26,8 @@ class Domain<?=$className?>EntityTest extends TestCase
         $data = $<?=$objectName?>->getData();
         $this->assertInstanceOf(<?=$className?>Data::class, $data);
         $this->assertEquals($createData->id, $data->id);
+<?php foreach ($fields as $field): ?>
+        $this->assertEquals($createData-><?= $field->name ?>, $data-><?= $field->name ?>);
+<?php endforeach;?>
     }
 }

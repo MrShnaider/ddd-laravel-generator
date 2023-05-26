@@ -2,6 +2,7 @@
 <?php
 /** @var string $className*/
 /** @var string $objectName*/
+/** @var \App\Domain\Renderer\FieldValue $fields*/
 ?>
 
 
@@ -19,6 +20,9 @@ class <?=$className?>RepositoryEloquent extends <?=$className?>Repository
     public function create<?=$className?>(Create<?=$className?>Data $data): <?=$className?>Entity
     {
         $<?=$objectName?>Model = <?=$className?>::make();
+<?php foreach ($fields as $field): ?>
+        $<?=$objectName?>Model-><?= $field->name ?> = $data-><?= $field->name ?>;
+<?php endforeach;?>
         $<?=$objectName?>Model->save();
 
         return $this->get<?=$className?>ByModel($<?=$objectName?>Model);

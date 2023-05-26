@@ -23,7 +23,7 @@ class OfferEntityEloquent extends OfferEntity
     {
         $this->offerModel->refresh();
         return new OfferData(
-            id: $this->getId()
+            id: $this->getId(),
         );
     }
 }

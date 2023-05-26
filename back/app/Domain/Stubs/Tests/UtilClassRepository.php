@@ -1,6 +1,7 @@
 <?='<?php'?>
 <?php
 /** @var string $className*/
+/** @var \App\Domain\Renderer\FieldValue $fields*/
 ?>
 
 

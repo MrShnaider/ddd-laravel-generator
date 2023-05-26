@@ -6,6 +6,7 @@ namespace App\Domain\CleanArchFacade;
 
 use App\Domain\FileGenerator\ExceptionFileAlreadyExists;
 use App\Domain\FileGenerator\FileGenerator;
+use App\Domain\Renderer\FieldValue;
 use App\Domain\Renderer\Renderer;
 use Symfony\Component\Filesystem\Path;
 
@@ -14,11 +15,15 @@ class CleanArchFacade
     private Renderer $renderer;
     private FileGenerator $fileGenerator;
 
-    /** @throws ExceptionFileAlreadyExists */
-    public function generateDomain(string $entityName)
+    /**
+     * @param string $entityName
+     * @param FieldValue[] $fields
+     * @throws ExceptionFileAlreadyExists
+     */
+    public function generateDomain(string $entityName, array $fields = [])
     {
         $entityName = str($entityName)->studly();
-        $this->renderer = new Renderer($entityName);
+        $this->renderer = new Renderer($entityName, $fields);
         $this->fileGenerator = new FileGenerator();
         $this->fileGenerator->ensureFileDoesNotExist(Path::getDirectory(Directories::DOMAIN_ENTITY($entityName)));
 
@@ -29,7 +34,7 @@ class CleanArchFacade
     }
 
     /** @throws ExceptionFileAlreadyExists */
-    public function generateInfrastructure(string $entityName)
+    public function generateInfrastructure(string $entityName, array $fields = [])
     {
         $entityName = str($entityName)->studly();
         $this->renderer = new Renderer($entityName);
@@ -41,7 +46,7 @@ class CleanArchFacade
     }
 
     /** @throws ExceptionFileAlreadyExists */
-    public function generateTests(string $entityName)
+    public function generateTests(string $entityName, array $fields = [])
     {
         $entityName = str($entityName)->studly();
         $this->renderer = new Renderer($entityName);
@@ -54,11 +59,11 @@ class CleanArchFacade
     }
 
     /** @throws ExceptionFileAlreadyExists */
-    public function generateNewEntity(string $entityName)
+    public function generateNewEntity(string $entityName, array $fields = [])
     {
-        $this->generateDomain($entityName);
-        $this->generateInfrastructure($entityName);
-        $this->generateTests($entityName);
+        $this->generateDomain($entityName, $fields);
+        $this->generateInfrastructure($entityName, $fields);
+        $this->generateTests($entityName, $fields);
     }
 
     /** @throws ExceptionFileAlreadyExists */
