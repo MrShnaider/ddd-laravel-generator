@@ -15,7 +15,8 @@ class GenerateNewEntityRequest extends JsonRequest
     {
         return [
             'root_directory' => ['required', 'string'],
-            'entity_name' => ['required', 'string']
+            'entity_name' => ['required', 'string'],
+            'fields' => [],
         ];
     }
 }

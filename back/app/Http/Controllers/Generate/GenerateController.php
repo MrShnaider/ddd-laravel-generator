@@ -14,9 +14,10 @@ class GenerateController extends Controller
     {
         $data = $request->validated();
         $directory = $data['root_directory'];
+        $fields = $data['fields'] ?? [];
         Directories::$basePath = $directory;
         try {
-            app(CleanArchFacade::class)->generateNewEntity($data['entity_name']);
+            app(CleanArchFacade::class)->generateNewEntity($data['entity_name'], $fields);
         } catch (ExceptionFileAlreadyExists $e) {
             response()->json(['errors' => ['error' => 'Некоторые директории уже существовали']], 201);
         }
