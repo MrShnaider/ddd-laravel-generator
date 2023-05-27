@@ -12,7 +12,7 @@ namespace App\Domain\<?=$className?>;
 class <?=$className?>Data
 {
     public function __construct(
-        int $id,
+        public int $id,
 <?php foreach ($fields as $field): ?>
         public <?= $field->type ?> $<?= $field->name ?>,
 <?php endforeach;?>

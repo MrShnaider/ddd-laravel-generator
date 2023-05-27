@@ -1,0 +1,26 @@
+<?php
+
+
+namespace Tests\Feature\Offer;
+
+use App\Domain\Offer\OfferRepository;
+use App\Domain\Offer\OfferData;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
+
+class DomainOfferEntityTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    /** @test */
+    public function offer_hasProperDataAfterCreation()
+    {
+        $createData = app(UtilOfferRepository::class)->getCreateOfferData();
+        $offer = app(OfferRepository::class)->createOffer($createData);
+        $data = $offer->getData();
+        $this->assertInstanceOf(OfferData::class, $data);
+        $this->assertEquals($createData->id, $data->id);
+        $this->assertEquals($createData->title, $data->title);
+        $this->assertEquals($createData->price, $data->price);
+    }
+}

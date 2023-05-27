@@ -11,6 +11,8 @@ class UtilOfferRepository
 {
     public function __construct() {
         $this->data = new CreateOfferData(
+            title: '',
+            price: 0,
         );
     }
 

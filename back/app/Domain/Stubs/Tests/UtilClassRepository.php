@@ -16,6 +16,9 @@ class Util<?=$className?>Repository
 {
     public function __construct() {
         $this->data = new Create<?=$className?>Data(
+<?php foreach ($fields as $field): ?>
+            <?= $field->name ?>: <?= $field->testValue ?>,
+<?php endforeach;?>
         );
     }
 
@@ -24,8 +27,7 @@ class Util<?=$className?>Repository
 
     public function getCreate<?=$className?>Data(): Create<?=$className?>Data
     {
-        return new Create<?=$className?>Data(
-        );
+        return $this->data;
     }
 
     public function next<?=$className?>(): void

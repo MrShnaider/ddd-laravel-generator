@@ -31,7 +31,7 @@ class <?=$className?>EntityEloquent extends <?=$className?>Entity
         return new <?=$className?>Data(
             id: $this->getId(),
 <?php foreach ($fields as $field): ?>
-            <?= $field->name ?>: $this->$<?=$objectName?>Model-><?= $field->name ?>,
+            <?= $field->name ?>: $this-><?=$objectName?>Model-><?= $field->name ?>,
 <?php endforeach;?>
         );
     }
