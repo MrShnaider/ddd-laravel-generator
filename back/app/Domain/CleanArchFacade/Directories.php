@@ -54,4 +54,9 @@ class Directories
     {
         return Path::join(self::$basePath, 'tests/Feature', $name, "Util{$name}Repository.php");
     }
+
+    public static function MODEL_ENTITY(string $name): string
+    {
+        return Path::join(self::$basePath, 'app/Models', "{$name}.php");
+    }
 }

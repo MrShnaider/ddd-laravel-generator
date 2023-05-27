@@ -19,6 +19,6 @@ class DomainOfferEntityTest extends TestCase
         $offer = app(OfferRepository::class)->createOffer($createData);
         $data = $offer->getData();
         $this->assertInstanceOf(OfferData::class, $data);
-        $this->assertEquals($createData->id, $data->id);
+        $this->assertNotNull($data->id);
     }
 }

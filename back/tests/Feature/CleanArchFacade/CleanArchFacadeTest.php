@@ -93,6 +93,18 @@ class CleanArchFacadeTest extends TestCase
         );
     }
 
+    /** @test */
+    public function facade_canCreateModel()
+    {
+        app(CleanArchFacade::class)->generateModel(self::$entityName);
+        $this->currentGenerationDirectoryPath = Path::getDirectory(Directories::MODEL_ENTITY(self::$entityName));
+        // Model
+        $this->generateAndCheckFile(
+            Directories::MODEL_ENTITY(self::$entityName),
+            TestReferenceStubs::MODEL_ENTITY()
+        );
+    }
+
     public function facade_throwsException_whenPathAlreadyExists()
     {
         // Domain

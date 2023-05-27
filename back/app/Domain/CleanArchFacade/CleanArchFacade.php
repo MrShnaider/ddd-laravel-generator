@@ -37,7 +37,7 @@ class CleanArchFacade
     public function generateInfrastructure(string $entityName, array $fields = [])
     {
         $entityName = str($entityName)->studly();
-        $this->renderer = new Renderer($entityName);
+        $this->renderer = new Renderer($entityName, $fields);
         $this->fileGenerator = new FileGenerator();
         $this->fileGenerator->ensureFileDoesNotExist(Path::getDirectory(Directories::INFR_ENTITY($entityName)));
 
@@ -49,7 +49,7 @@ class CleanArchFacade
     public function generateTests(string $entityName, array $fields = [])
     {
         $entityName = str($entityName)->studly();
-        $this->renderer = new Renderer($entityName);
+        $this->renderer = new Renderer($entityName, $fields);
         $this->fileGenerator = new FileGenerator();
         $this->fileGenerator->ensureFileDoesNotExist(Path::getDirectory(Directories::TEST_ENTITY($entityName)));
 
@@ -59,11 +59,25 @@ class CleanArchFacade
     }
 
     /** @throws ExceptionFileAlreadyExists */
+    public function generateModel(string $entityName, array $fields = [])
+    {
+        $entityName = str($entityName)->studly();
+        $this->renderer = new Renderer($entityName);
+        $this->fileGenerator = new FileGenerator();
+        $this->generateFile(Directories::MODEL_ENTITY($entityName), StubDirectories::MODEL_ENTITY());
+    }
+
+    /**
+     * @param string $entityName
+     * @param FieldValue[] $fields
+     * @throws ExceptionFileAlreadyExists
+     */
     public function generateNewEntity(string $entityName, array $fields = [])
     {
         $this->generateDomain($entityName, $fields);
         $this->generateInfrastructure($entityName, $fields);
         $this->generateTests($entityName, $fields);
+        $this->generateModel($entityName, $fields);
     }
 
     /** @throws ExceptionFileAlreadyExists */

@@ -52,4 +52,9 @@ class StubDirectories
     {
         return Path::join(app_path(), 'Domain/Stubs/Tests', "UtilClassRepository.php");
     }
+
+    public static function MODEL_ENTITY(): string
+    {
+        return Path::join(app_path(), 'Domain/Stubs/Models', "ClassModel.php");
+    }
 }

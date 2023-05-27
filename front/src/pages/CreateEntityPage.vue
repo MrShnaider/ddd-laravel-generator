@@ -59,7 +59,8 @@ const removeField = (id: number) => {
 const createNewEntity = async () => {
 	await axios.post('http://clean-generator/api/entity/create', {
 		root_directory: project.currentProject?.directory,
-		entity_name: entityName.value
+		entity_name: entityName.value,
+		fields: fields.value,
 	});
 	entityName.value = '';
 	fields.value = [];

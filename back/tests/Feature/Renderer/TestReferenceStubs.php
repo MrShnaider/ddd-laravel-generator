@@ -52,4 +52,9 @@ class TestReferenceStubs
     {
         return Path::join(__DIR__, 'Tests/UtilOfferRepository.txt');
     }
+
+    public static function MODEL_ENTITY(): string
+    {
+        return Path::join(__DIR__, 'Models/OfferModel.txt');
+    }
 }
