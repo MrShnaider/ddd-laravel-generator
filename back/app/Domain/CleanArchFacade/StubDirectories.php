@@ -57,4 +57,11 @@ class StubDirectories
     {
         return Path::join(app_path(), 'Domain/Stubs/Models', "ClassModel.php");
     }
+
+    public static function MODEL_MIGRATION(): string
+    {
+        return Path::join(app_path(), 'Domain/Stubs/Models', "ClassMigration.php");
+    }
+
+
 }

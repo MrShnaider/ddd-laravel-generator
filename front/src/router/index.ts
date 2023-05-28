@@ -4,19 +4,19 @@ import CreateEntityPage from '@/pages/CreateEntityPage.vue';
 import { useProjectStore } from '@/stores/project';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'index',
-      component: IndexPage
-    },
-	{
-		path: '/create/entity',
-		name: 'create-entity',
-		component: CreateEntityPage
-	}
-  ]
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes: [
+		{
+			path: '/',
+			name: 'index',
+			component: IndexPage
+		},
+		{
+			path: '/create/entity',
+			name: 'create-entity',
+			component: CreateEntityPage
+		}
+	]
 });
 
 router.beforeEach((to, from, next) => {

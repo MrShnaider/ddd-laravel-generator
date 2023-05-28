@@ -57,4 +57,9 @@ class TestReferenceStubs
     {
         return Path::join(__DIR__, 'Models/OfferModel.txt');
     }
+
+    public static function MODEL_MIGRATION(): string
+    {
+        return Path::join(__DIR__, 'Models/OfferMigration.txt');
+    }
 }

@@ -59,4 +59,16 @@ class Directories
     {
         return Path::join(self::$basePath, 'app/Models', "{$name}.php");
     }
+
+    public static function MODEL_MIGRATION(string $name): string
+    {
+        $now = now();
+        $year = $now->year;
+        $month = str_pad($now->month, 2, '0', STR_PAD_LEFT);
+        $day = str_pad($now->day, 2, '0', STR_PAD_LEFT);
+        $ms = str_pad($now->secondsSinceMidnight(), 6, '0', STR_PAD_LEFT);
+        $name = str($name)->snake()->plural();
+        $result = "{$year}_{$month}_{$day}_{$ms}_create_{$name}_table.php";
+        return Path::join(self::$basePath, 'database/migrations', $result);
+    }
 }

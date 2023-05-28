@@ -61,4 +61,12 @@ class RendererWithFieldsTest extends TestCase
         $example = file_get_contents(__DIR__.'/WithFields/Tests/UtilOfferRepository.txt');
         $this->assertEquals($example, $result);
     }
+
+    /** @test */
+    public function renderer_canRender_entityMigration()
+    {
+        $result = $this->renderer->getRenderedStub(StubDirectories::MODEL_MIGRATION());
+        $example = file_get_contents(__DIR__.'/WithFields/Models/OfferMigration.txt');
+        $this->assertEquals($example, $result);
+    }
 }

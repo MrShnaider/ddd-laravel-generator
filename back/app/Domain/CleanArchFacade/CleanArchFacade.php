@@ -62,9 +62,18 @@ class CleanArchFacade
     public function generateModel(string $entityName, array $fields = [])
     {
         $entityName = str($entityName)->studly();
-        $this->renderer = new Renderer($entityName);
+        $this->renderer = new Renderer($entityName, $fields);
         $this->fileGenerator = new FileGenerator();
         $this->generateFile(Directories::MODEL_ENTITY($entityName), StubDirectories::MODEL_ENTITY());
+    }
+
+    /** @throws ExceptionFileAlreadyExists */
+    public function generateMigration(string $entityName, array $fields = [])
+    {
+        $entityName = str($entityName)->studly();
+        $this->renderer = new Renderer($entityName, $fields);
+        $this->fileGenerator = new FileGenerator();
+        $this->generateFile(Directories::MODEL_MIGRATION($entityName), StubDirectories::MODEL_MIGRATION());
     }
 
     /**
@@ -78,6 +87,7 @@ class CleanArchFacade
         $this->generateInfrastructure($entityName, $fields);
         $this->generateTests($entityName, $fields);
         $this->generateModel($entityName, $fields);
+        $this->generateMigration($entityName, $fields);
     }
 
     /** @throws ExceptionFileAlreadyExists */

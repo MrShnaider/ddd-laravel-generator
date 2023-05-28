@@ -101,6 +101,14 @@ class RendererTest extends TestCase
         $this->assertEquals($example, $result);
     }
 
+    /** @test */
+    public function renderer_canRenderMigration()
+    {
+        $example = $this->getExample('Models/OfferMigration.txt');
+        $result = $this->renderStub('Models/ClassMigration.php');
+        $this->assertEquals($example, $result);
+    }
+
     private function renderStub(string $stubFile): string
     {
         return $this->renderer->getRenderedStub(app_path("Domain/Stubs/$stubFile"));
